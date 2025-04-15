@@ -1,50 +1,22 @@
 import fastapi_access_gen
+from fastapi_access_gen.generator import *
+from fastapi import FastAPI
 
 import test_files.test_models
-
 
 def test_get_pydantic_classes():
     pass
 
-def test_get_fields_and_types():
-    pass
-
 from fastapi import FastAPI
+import ast
+import inspect
+from fastapi_access_gen import introspector
 
 app = FastAPI()
-import inspect
-def get_decorator(function):
-    """Returns list of decorators names
 
-    Args:
-        function (Callable): decorated method/function
+@app.get("hello/world")
+def test_route(input: str, numberrr: int) -> int:
+    pass
 
-    Return:
-        List of decorators as strings
-
-    Example:
-        Given:
-
-        @my_decorator
-        @another_decorator
-        def decorated_function():
-            pass
-
-        >>> get_decorators(decorated_function)
-        ['@my_decorator', '@another_decorator']
-
-    """
-    source = inspect.getsource(function)
-    index = source.find("def ")
-    return [
-        line.strip().split()[0]
-        for line in source[:index].strip().splitlines()
-        if line.strip()[0] == "@"
-        ][0]
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-print(get_decorator(root))
+# print(introspector.get_route_and_method(test_route))
+print( parse_path_params("/users/{user_id}"))
