@@ -13,11 +13,17 @@ def parse_path_params(path_str: str) -> dict:
 
     return params
 
-def get_path_params_and_query_params(
+def separate_path_params_and_query_params(
     function_params: dict[str, str],
-    path_params: tuple[list[str], dict[str, str]]
+    path_params: dict
 ) -> tuple[dict, dict]:
 
-
+    query_params = {}
     if 'return' in function_params:
         del function_params['return']
+
+    for param, type in function_params.items():
+        if param not in path_params:
+            query_params[param] = type
+
+    return query_params, path_params

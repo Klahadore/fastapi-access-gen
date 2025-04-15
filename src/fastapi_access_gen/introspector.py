@@ -85,8 +85,19 @@ def extract_route_from_decorator(decorator_str):
     return None
 
 
-def get_route_and_method(func) -> list[tuple[str, str]] :
-    """Get decorators using AST parsing."""
+def get_routes_and_methods(func) -> list[tuple[str, str]] :
+    """
+    Get decorators using AST parsing.
+
+    Args:
+        fastAPI route function with route decorator
+
+    Rreturns:
+        a list of tuples containing the method string ("GET", "POST"), and the route string.
+
+    It returns a list because a single endpoint can have multiple routes.
+
+    """
     source = inspect.getsource(func)
     tree = ast.parse(source)
 
